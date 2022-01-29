@@ -15,14 +15,15 @@ namespace CSH_projekt
 
         private void Deck()
         {
-            private string[] suite = ["Hearts", "Spades", "Diamonds", "Clubs"];
-            private string[] value = ["Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"];
-            private string[] signs = ["\uU + 2660"]
-        }
+        private string[] suite = { "Hearts", "Spades", "Diamonds", "Clubs" };
+        private string[] value = { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace" };
+        private string[] signs = { "\\U2660" };
+        
+  
+        }     
 
 
-
-        public Form1()
+    public Form1()
         {
             InitializeComponent();
         }
@@ -53,3 +54,4 @@ namespace CSH_projekt
         }
     }
 }
+
