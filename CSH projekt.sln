@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSH projekt", "CSH projekt\CSH projekt.csproj", "{3C82BCEC-6521-4E08-93CE-A2EA039C0EE6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9B931FE-F1ED-4FB2-8EC5-60A7E580C4BD}"
-	ProjectSection(SolutionItems) = preProject
-		Deck.cs = Deck.cs
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

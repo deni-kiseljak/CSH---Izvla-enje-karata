@@ -10,33 +10,9 @@ using System.Windows.Forms;
 
 namespace CSH_projekt
 {
-    public class Deck
-    {
-        private string[] suit = new string[] { "Diamonds \u2666", "Hearts \u2665", "Spades \u2660", "Clubs \u2663" };
-        private string[] value = new string[] { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace" };
-        private List<string> items = new List<string>();
-        private string[] arrayOfItems;
-
-        public string[] OrderedDeck()
-        {
-            foreach (string s in suit)
-            {
-                foreach (string v in value)
-                {
-                    items.Add(v +" of "+ s);
-                }
-            }
-            arrayOfItems = items.ToArray();
-            foreach (string s in arrayOfItems)
-            {
-                Console.WriteLine(s);
-            }
-            return arrayOfItems;
-        }
-
-    }
+    
     public partial class Form1 : Form
-    {  
+    {
 
     public Form1()
         {
@@ -46,33 +22,131 @@ namespace CSH_projekt
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+                        
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var instance = new Deck();
-            string text= "";
-            foreach (string s in instance.OrderedDeck())
-            {
-                text += s+"\n";
-                richTextBox1.Text=text;
-            }
+            richTextBox1.Text = Deck.instance.DrawOne();
+
+            //foreach (string s in instance.ShuffledDeck())
+            //{
+            //    text += s+"\n";
+            //    richTextBox1.Text=text;
+            //}
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            richTextBox1.Text = Deck.instance.DrawTwo();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            Deck.instance.Reshuffle();
+            richTextBox1.Text = "Reshuffled";
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             
+        }
+    }
+    
+    public class Deck
+    {
+
+
+        public static readonly Deck instance = new Deck();
+        private Deck() { ShuffledDeck(); }
+
+        private string[] suit = new string[] { "Diamonds \u2666", "Hearts \u2665", "Spades \u2660", "Clubs \u2663" };
+        private string[] value = new string[] { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace" };
+        private List<string> items = new List<string>();
+        private List<string> shuffledItems = new List<string>();
+        private string[] arrayOfItems;
+
+        public string[] OrderedDeck()
+        {
+            foreach (string s in suit)
+            {
+                foreach (string v in value)
+                {
+                    items.Add(v + " of " + s);
+                }
+            }
+            arrayOfItems = items.ToArray();
+
+            //foreach (string s in arrayOfItems)
+            //{
+            //    Console.WriteLine(s);
+            //}
+            return arrayOfItems;
+        }
+
+        public List<string> ShuffledDeck()
+        {
+            OrderedDeck();
+            
+            var random = new Random();
+
+            for ( int i=51; i >= 0; --i)
+            {
+                var index = random.Next(0, i);
+                shuffledItems.Add(items[index]);
+                items.RemoveAt(index);
+            }
+        
+            //foreach (string s in shuffledItems)
+            //{
+            //    Console.WriteLine(s);
+            //}
+
+            return shuffledItems;
+        }
+
+        public string DrawOne()
+        {
+            if (shuffledItems.Count > 0)
+            {
+                var card = shuffledItems[0];
+                shuffledItems.RemoveAt(0);
+                return card;
+            }
+            else return "End of deck";
+        }
+
+        public string DrawTwo()
+        {
+            if (shuffledItems.Count >= 2)
+            {
+                string cards= "";
+
+                for (int i=0; i<2; i++)
+                {
+                    cards += shuffledItems[0] + "\n";
+                    shuffledItems.RemoveAt(0);
+                }
+                
+                return cards;
+               
+            }
+            else if (shuffledItems.Count == 1)
+            {
+                var card1 = shuffledItems[0];
+                shuffledItems.RemoveAt(0);
+                
+                return card1;
+            }
+            else
+            {
+                return "End of deck";
+            }  
+        }
+
+        public void Reshuffle()
+        {
+            ShuffledDeck();
         }
     }
 }
