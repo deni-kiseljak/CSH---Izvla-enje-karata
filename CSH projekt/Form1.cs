@@ -17,7 +17,9 @@ namespace CSH_projekt
     public Form1()
         {
             InitializeComponent();
-            richTextBox1.Text = "Draw one or two cards";
+            richTextBox1.SelectAll();
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
+            richTextBox1.Text = "\n\n\n\nDeck of cards! \nPress a button to draw one or two cards at a time.\n ";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -27,36 +29,31 @@ namespace CSH_projekt
 
         private void button1_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = Deck.instance.DrawOne();
-
-            //foreach (string s in instance.ShuffledDeck())
-            //{
-            //    text += s+"\n";
-            //    richTextBox1.Text=text;
-            //}
+            richTextBox1.Text = "\n\n\n\n" + Deck.instance.DrawOne();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = Deck.instance.DrawTwo();
+            richTextBox1.Text = "\n\n\n\n" + Deck.instance.DrawTwo();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Deck.instance.Reshuffle();
-            richTextBox1.Text = "Reshuffled";
+            richTextBox1.Text = "\n\n\n\nReshuffled";
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
-            
+            richTextBox1.SelectAll();
+            richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
         }
     }
     
     public class Deck
     {
 
-
+        //Singleton object with only one instance
         public static readonly Deck instance = new Deck();
         private Deck() { ShuffledDeck(); }
 
@@ -64,9 +61,8 @@ namespace CSH_projekt
         private string[] value = new string[] { "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace" };
         private List<string> items = new List<string>();
         private List<string> shuffledItems = new List<string>();
-        private string[] arrayOfItems;
 
-        public string[] OrderedDeck()
+        public List<string> OrderedDeck()
         {
             foreach (string s in suit)
             {
@@ -75,32 +71,30 @@ namespace CSH_projekt
                     items.Add(v + " of " + s);
                 }
             }
-            arrayOfItems = items.ToArray();
-
-            //foreach (string s in arrayOfItems)
-            //{
-            //    Console.WriteLine(s);
-            //}
-            return arrayOfItems;
+          
+            return items;
         }
 
         public List<string> ShuffledDeck()
         {
             OrderedDeck();
             
+            List<string> temp = new List<string>();
             var random = new Random();
 
             for ( int i=51; i >= 0; --i)
             {
                 var index = random.Next(0, i);
-                shuffledItems.Add(items[index]);
+                temp.Add(items[index]);
                 items.RemoveAt(index);
             }
-        
-            //foreach (string s in shuffledItems)
-            //{
-            //    Console.WriteLine(s);
-            //}
+
+            for (int i = 51; i >= 0; --i)
+            {
+                var index = random.Next(0, i);
+                shuffledItems.Add(temp[index]);
+                temp.RemoveAt(index);
+            }
 
             return shuffledItems;
         }
@@ -113,7 +107,7 @@ namespace CSH_projekt
                 shuffledItems.RemoveAt(0);
                 return card;
             }
-            else return "End of deck";
+            else return "End of deck. Press Reshuffle to reset deck.";
         }
 
         public string DrawTwo()
@@ -140,7 +134,7 @@ namespace CSH_projekt
             }
             else
             {
-                return "End of deck";
+                return "End of deck. Press Reshuffle to reset deck.";
             }  
         }
 
